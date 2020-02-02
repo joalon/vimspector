@@ -1,0 +1,11 @@
+{
+  "configurations": {
+    "Launch": {
+      "adapter": "dart-code",
+      "configuration": {
+        "request": "launch",
+        "program": "${file}"
+      }
+    }
+  }
+}

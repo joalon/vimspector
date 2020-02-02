@@ -106,6 +106,7 @@ on a best-efforts basis:
 - C# (c-sharp) using dotnet core
 - Go (requires separate installation of [Delve][])
 - Node.js (requires node <12 for installation)
+- Dart
 - Anything running in chrome (i.e. javascript).
 
 ## Languages known not to work
@@ -216,6 +217,7 @@ categorised as follows:
 | C# (dotnet core) | Experimental | `--force-enable-csharp`        | netcoredbg          | DotNet core                     |
 | C# (mono)        | Experimental | `--force-enable-csharp`        | vscode-mono-debug   | Mono                            |
 | Python.legacy    | Legacy       | `--force-enable-python.legacy` | vscode-python       | Node 10, Python 2.7 or Python 3 |
+| Dart             | Experimental | `--force-enable-dart`          | Dart-Code           | dart in PATH                    |
 
 For other languages, you'll need some other way to install the gadget.
 
@@ -983,6 +985,33 @@ It allows you to debug scripts running inside chrome from within Vim.
   }
 }
 ```
+
+## Dart
+
+Requires:
+
+* `dart` binary to be in your path (or specify `dartPath` in launch config)
+* `install_gadget.py --force-enable-dart`
+
+Example:
+
+```json
+{
+  "configurations": {
+    "Launch": {
+      "adapter": "dart-code",
+      "configuration": {
+        "request": "launch",
+        "dartPath": "/usr/local/bin/dart",
+        "program": "${file}"
+      }
+    }
+  }
+}
+```
+
+See [this thread](https://github.com/puremourning/vimspector/issues/4)
+for more background.
 
 ## Java - partially supported
 

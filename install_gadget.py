@@ -30,6 +30,7 @@ import json
 import functools
 import operator
 import glob
+from distutils import spawn
 
 # Include vimspector source, for utils
 sys.path.insert( 1, os.path.join( os.path.dirname( __file__ ),
@@ -381,6 +382,29 @@ GADGETS = {
       },
     },
   },
+  'dart-code': {
+    'language': 'dart',
+    'enabled': False,
+    'repo': {
+      'url': 'https://github.com/Dart-Code/Dart-Code',
+      'ref': 'master',
+    },
+    'do': lambda name, root, gadget: InstallDartCode( name, root, gadget ),
+    'adapters': {
+      'dart-code': {
+        'name': 'dart-code',
+        'type': 'dart-code',
+        'command': [
+          'node',
+          '${gadgetDir}/Dart-Code/out/src/debug/dart_debug_entry.js'
+        ],
+        'configuration': {
+          'console': 'terminal',
+          'dartPath': spawn.find_executable( 'dart' ) or ''
+        }
+      },
+    },
+  },
 }
 
 
@@ -478,6 +502,14 @@ def InstallNodeDebug( name, root, gadget ):
   with installer.CurrentWorkingDir( root ):
     subprocess.check_call( [ 'npm', 'install' ] )
     subprocess.check_call( [ 'npm', 'run', 'build' ] )
+  installer.MakeSymlink( gadget_dir, name, root )
+
+
+def InstallDartCode( name, root, gadget ):
+  with installer.CurrentWorkingDir( root ):
+    subprocess.check_call( [ 'npm', 'install' ] )
+    subprocess.check_call( [ 'npm', 'run', 'build-tests' ] )
+
   installer.MakeSymlink( gadget_dir, name, root )
 
 
