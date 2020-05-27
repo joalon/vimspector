@@ -223,7 +223,7 @@ GADGETS = {
       'checksum': '',
     },
     'do': lambda name, root, gadget: MakeSymlink(
-      install.GetGadgetDir( options.vimspector_base, install.GetOS() ),
+      install.GetGadgetDir( options.vimspector_base ),
       name,
       os.path.join( root, 'netcoredbg' ) ),
     'adapters': {
@@ -438,8 +438,7 @@ def InstallDebugpy( name, root, gadget ):
   finally:
     os.chdir( wd )
 
-  MakeSymlink( install.GetGadgetDir( options.vimspector_base,
-                                     install.GetOS() ),
+  MakeSymlink( install.GetGadgetDir( options.vimspector_base ),
                name,
                root )
 
@@ -476,8 +475,7 @@ def InstallTclProDebug( name, root, gadget ):
     subprocess.check_call( configure )
     subprocess.check_call( [ 'make' ] )
 
-  MakeSymlink( install.GetGadgetDir( options.vimspector_base,
-                                     install.GetOS() ),
+  MakeSymlink( install.GetGadgetDir( options.vimspector_base ),
                name,
                root )
 
@@ -500,7 +498,7 @@ def InstallNodeDebug( name, root, gadget ):
   with CurrentWorkingDir( root ):
     subprocess.check_call( [ 'npm', 'install' ] )
     subprocess.check_call( [ 'npm', 'run', 'build' ] )
-  MakeSymlink( install.GetGadgetDir( options.vimspector_base, install.GetOS() ),
+  MakeSymlink( install.GetGadgetDir( options.vimspector_base ),
                name,
                root )
 
@@ -517,11 +515,11 @@ def InstallGagdet( name, gadget, failed, all_adapters ):
           install.GetOS(),
           name ) )
 
-      destination = os.path.join( install.GetGadgetDir( options.vimspector_base,
-                                                        install.GetOS() ),
-                                  'download',
-                                  name,
-                                  v[ 'version' ] )
+      destination = os.path.join(
+        install.GetGadgetDir( options.vimspector_base ),
+        'download',
+        name,
+        v[ 'version' ] )
 
       url = string.Template( gadget[ 'download' ][ 'url' ] ).substitute( v )
 
@@ -540,10 +538,10 @@ def InstallGagdet( name, gadget, failed, all_adapters ):
       url = string.Template( gadget[ 'repo' ][ 'url' ] ).substitute( v )
       ref = string.Template( gadget[ 'repo' ][ 'ref' ] ).substitute( v )
 
-      destination = os.path.join( install.GetGadgetDir( options.vimspector_base,
-                                                        install.GetOS() ),
-                                  'download',
-                                  name )
+      destination = os.path.join(
+        install.GetGadgetDir( options.vimspector_base ),
+        'download',
+        name )
       CloneRepoTo( url, ref, destination )
       root = destination
 
@@ -742,8 +740,7 @@ def ExtractZipTo( file_path, destination, format ):
 
 
 def MakeExtensionSymlink( name, root ):
-  MakeSymlink( install.GetGadgetDir( options.vimspector_base,
-                                     install.GetOS() ),
+  MakeSymlink( install.GetGadgetDir( options.vimspector_base ),
                name,
                os.path.join( root, 'extension' ) ),
 
