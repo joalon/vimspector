@@ -4,7 +4,11 @@
     "Run - CodeLLDB": {
       "adapter": {
         "variables": {
-          "CodeLLDB": "$HOME/.vscode/extensions/vadimcn.vscode-lldb-1.5.3"
+          "CodeLLDB": "$HOME/.vscode/extensions/vadimcn.vscode-lldb-1.5.3",
+          "build": {
+            "shell": [ "cargo", "build" ],
+            "cwd": "${workspaceRoot}"
+          }
         },
         "command": [
           "${CodeLLDB}/adapter/codelldb",
