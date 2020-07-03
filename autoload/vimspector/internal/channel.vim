@@ -39,6 +39,15 @@ function! vimspector#internal#channel#StartDebugSession( config ) abort
     return v:false
   endif
 
+  " If we _also_ have a command line, then start the actual job. This allows for
+  " servers which start up and listen on some port
+  if has_key( a:config, 'command' )
+    if !vimspector#internal#job#StartDebugSession( a:config )
+      return v:false
+    endif
+    let s:job = v:true
+  endif
+
   let l:addr = get( a:config, 'host', 'localhost' ) . ':' . a:config[ 'port' ]
 
   echo 'Connecting to ' . l:addr . '... (waiting fo up to 10 seconds)'
@@ -72,6 +81,10 @@ EOF
 endfunction
 
 function! vimspector#internal#channel#StopDebugSession() abort
+  if exists( 's:job' )
+    call vimspector#internal#job#StopDebugSession()
+  endif
+
   if !exists( 's:ch' )
     return
   endif
